@@ -34,6 +34,7 @@
             </main>
         </div>
         @livewireScripts
+        @livewire('fluent.fluent-toolbar')
         @livewire('livewire-ui-modal')
     </body>
 </html>
