@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Storage;
 class H2 extends Component
 {
     public $ref;
-    public $class;
     public $default;
+    public $class;
     public $output;
     public $path;
+    public $edit = true;
+    // public $attributes;
 
     public function retreiveStoredValue()
     {
@@ -32,6 +34,7 @@ class H2 extends Component
 
     public function render()
     {
+
         $this->output = $this->retreiveStoredValue();
 
 
