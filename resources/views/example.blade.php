@@ -1,8 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Example') }}
-        </h2>
+        <livewire:fluent.h2
+            class="font-semibold text-xl text-gray-800 leading-tight"
+            path="example"
+            ref="title"
+            default="Example"
+        />
     </x-slot>
 
     <div class="py-12">
