@@ -13,7 +13,7 @@ class H2 extends Component
     public $class;
     public $output;
     public $path;
-    public $edit = true;
+    public $edit = false;
     // public $attributes;
 
     public function retreiveStoredValue()
@@ -30,6 +30,10 @@ class H2 extends Component
 
 
         return $storedValue[$this->ref] ?? $this->default;
+    }
+
+    public function handleClick(){
+        if($this->edit) $this->emit('openModal', 'fluent.edit-modal');
     }
 
     public function render()
