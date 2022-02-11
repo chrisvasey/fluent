@@ -7,12 +7,13 @@ use Livewire\Component;
 class FluentToolbar extends Component
 {
     public $enabled = true;
+    public $editMode = true;
     public $languages;
     public $currentLanguage;
 
     protected $listeners = ['changeLanguage' => 'handleLanguageChange'];
 
-    public function handleLanguageChange(String $languageKey)
+    public function handleLanguageChange($languageKey)
     {
         $this->currentLanguage = $languageKey;
     }

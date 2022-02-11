@@ -13,22 +13,18 @@ class H2 extends Component
     public $class;
     public $output;
     public $path;
-    public $edit;
+    public $editMode = true;
+
+    protected $listeners = ['changeEditMode'];
 
     public function mount()
     {
         $this->retreiveStoredValue();
-        $this->checkIfEdit();
-
     }
 
-    public function checkIfEdit()
+    public function changeEditMode()
     {
-        // If we have ?fluent=true in the URL, enable edit.
-        // TODO: Check for Admin/Auth to enable.
-        if(request()->get('fluent')){
-            $this->edit = true;
-        }
+        $this->editMode = !$this->editMode;
     }
 
     public function retreiveStoredValue()
@@ -53,7 +49,7 @@ class H2 extends Component
 
     public function handleClick(){
         // If we aren't in edit mode, get the fuck out of here!
-        if(!$this->edit) return;
+        if(!$this->editMode) return;
 
         // Open edit modal with this components values
         $this->emit('openModal', 'fluent.edit-modal', [
