@@ -13,13 +13,13 @@
             <div class="flex items-center ml-2">
                 <h1 class="text-sm font-medium text-gray-900">Current Language:</h1>
             </div>
-            @foreach ($languages as $language)
+            @foreach ($languages as $key => $language)
                 <button
-                    wire:click="emit('changeLanguage', {{ $language['ref'] }})"
+                    wire:click="$emit('changeLanguage', '{{ $key }}')"
                     type="button"
                     @class([
                         "inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium my-2 mx-2 bg-red-100 text-red-800",
-                        "bg-red-800 text-red-100" => $language['active']
+                        "bg-red-800 text-red-100" => ($key == $currentLanguage)
                     ])
                 >
                     {{ $language['label'] }}

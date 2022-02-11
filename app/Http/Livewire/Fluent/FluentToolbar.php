@@ -10,19 +10,18 @@ class FluentToolbar extends Component
     public $languages;
     public $currentLanguage;
 
+    protected $listeners = ['changeLanguage' => 'handleLanguageChange'];
+
+    public function handleLanguageChange(String $languageKey)
+    {
+        $this->currentLanguage = $languageKey;
+    }
+
     public function mount()
     {
-        $supported = config('fluent.supported');
-
         $this->currentLanguage = config('fluent.default');
 
-        $this->languages = collect($supported)->map(function ($item, $key){
-            return [
-                'ref' => $key,
-                'label' => $item,
-                'active' => ($key === $this->currentLanguage),
-            ];
-        });
+        $this->languages = collect(config('fluent.supported'));
     }
 
     public function render()
