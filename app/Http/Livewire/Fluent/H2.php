@@ -34,17 +34,17 @@ class H2 extends Component
     public function retreiveStoredValue()
     {
         // Attempt to retrieve a stored value for this ref
-        $storedValue = json_decode(Storage::disk('local')->get("fluent/{$this->path}.json"), true);
+        $storedValue = json_decode(Storage::disk('local')->get(config('fluent.path')."/{$this->path}.json"), true);
 
         // If we have no file at all, create one with this ref and value
         if(!$storedValue){
-            Storage::disk('local')->put("fluent/{$this->path}.json", json_encode([
-                $this->ref => $this->default
+            Storage::disk('local')->put(config('fluent.path')."/{$this->path}.json", json_encode([
+                config('fluent.default') => [$this->ref => $this->default]
             ]));
         }
 
-
-        return $storedValue[$this->ref] ?? $this->default;
+        //TODO: Here it should be checking for the current language rather than the default
+        return $storedValue[config('fluent.default')][$this->ref] ?? $this->default;
     }
 
     public function handleClick(){
