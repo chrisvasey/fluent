@@ -7,7 +7,7 @@
             <div class="mb-2">
                 <label for="default" class="block text-sm font-medium text-gray-700">Default</label>
                 <div class="mt-1">
-                  <input type="text" name="default" id="default" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="">
+                  <input type="text" name="default" id="default" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" value="{{ $default }}">
                 </div>
             </div>
             <div class="mb-2">

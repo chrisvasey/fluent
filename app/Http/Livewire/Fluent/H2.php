@@ -33,7 +33,16 @@ class H2 extends Component
     }
 
     public function handleClick(){
-        if($this->edit) $this->emit('openModal', 'fluent.edit-modal');
+        // If we aren't in edit mode, get the fuck out of here!
+        if(!$this->edit) return;
+
+        // Open edit modal with this components values
+        $this->emit('openModal', 'fluent.edit-modal', [
+            'ref' => $this->ref,
+            'path' => $this->path,
+            'default' => $this->default,
+            'values' => $this->retreiveStoredValue(),
+        ]);
     }
 
     public function render()
