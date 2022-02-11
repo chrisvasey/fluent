@@ -13,8 +13,16 @@ class H2 extends Component
     public $class;
     public $output;
     public $path;
-    public $edit = true;
-    // public $attributes;
+    public $edit;
+
+    public function mount()
+    {
+        $this->output = $this->retreiveStoredValue();
+
+        if(request()->get('fluent')){
+            $this->edit = true;
+        }
+    }
 
     public function retreiveStoredValue()
     {
@@ -47,10 +55,6 @@ class H2 extends Component
 
     public function render()
     {
-
-        $this->output = $this->retreiveStoredValue();
-
-
         return view('livewire.fluent.h2');
     }
 }
