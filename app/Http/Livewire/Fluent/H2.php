@@ -17,7 +17,7 @@ class H2 extends Component
 
     public function mount()
     {
-        $this->output = $this->retreiveStoredValue();
+        $this->retreiveStoredValue();
         $this->checkIfEdit();
 
     }
@@ -38,13 +38,17 @@ class H2 extends Component
 
         // If we have no file at all, create one with this ref and value
         if(!$storedValue){
-            Storage::disk('local')->put(config('fluent.path')."/{$this->path}.json", json_encode([
+            $storedValue = [
                 config('fluent.default') => [$this->ref => $this->default]
-            ]));
+            ];
+
+            Storage::disk('local')->put(config('fluent.path')."/{$this->path}.json", json_encode($storedValue));
         }
 
         //TODO: Here it should be checking for the current language rather than the default
-        return $storedValue[config('fluent.default')][$this->ref] ?? $this->default;
+        $this->output = $storedValue[config('fluent.default')][$this->ref] ?? $this->default;
+
+        return $storedValue;
     }
 
     public function handleClick(){
