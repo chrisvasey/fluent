@@ -13,7 +13,7 @@ class H2 extends Component
     public $class;
     public $output;
     public $path;
-    public $edit = false;
+    public $edit = true;
     // public $attributes;
 
     public function retreiveStoredValue()

@@ -1,12 +1,34 @@
 <div>
 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-    <div class="sm:flex sm:items-start">
+    <div class="w-full">
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Edit Modal</h3>
-        <div class="mt-2">
-          <p class="text-sm text-gray-500">
-              This is where the editing content will go.
-          </p>
+        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Fluent Editor</h3>
+        <div class="mt-4">
+            <div class="mb-2">
+                <label for="default" class="block text-sm font-medium text-gray-700">Default</label>
+                <div class="mt-1">
+                  <input type="text" name="default" id="default" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="">
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="en" class="block text-sm font-medium text-gray-700">English</label>
+                <div class="mt-1">
+                  <input type="text" name="en" id="en" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="">
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="fr" class="block text-sm font-medium text-gray-700">French</label>
+                <div class="mt-1">
+                  <input type="text" name="fr" id="fr" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="">
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="gr" class="block text-sm font-medium text-gray-700">German</label>
+                <div class="mt-1">
+                  <input type="text" name="gr" id="gr" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="">
+                </div>
+            </div>
+
         </div>
       </div>
     </div>
