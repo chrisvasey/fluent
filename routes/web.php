@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+    // How cool would this be?
+    Route::get('/', function () {
+        return view('home');
+    })->name('home')->fluent('static.home');
+    // Here we specify a path to the JSON language file
+    // e.g: /storage/fluent/home.json
+*/
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
