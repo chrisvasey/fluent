@@ -18,7 +18,14 @@ class H2 extends Component
     public function mount()
     {
         $this->output = $this->retreiveStoredValue();
+        $this->checkIfEdit();
 
+    }
+
+    public function checkIfEdit()
+    {
+        // If we have ?fluent=true in the URL, enable edit.
+        // TODO: Check for Admin/Auth to enable.
         if(request()->get('fluent')){
             $this->edit = true;
         }
