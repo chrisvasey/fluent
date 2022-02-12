@@ -18,7 +18,7 @@
                     wire:click="$emit('changeLanguage', '{{ $key }}')"
                     type="button"
                     @class([
-                        "inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium my-2 mx-2 bg-red-100 text-red-500",
+                        "inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium my-2 mx-2 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white",
                         "bg-red-500 text-white" => ($key == $currentLanguage)
                     ])
                 >
