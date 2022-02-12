@@ -2,7 +2,6 @@
     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div class="w-full">
         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Fluent Editor</h3>
             <div class="mt-4">
                 <div class="mb-2">
                     <label for="default" class="block text-sm font-medium text-gray-700">Default</label>
@@ -11,6 +10,7 @@
                         <p class="mt-2 text-sm text-gray-500" id="email-description">This is the fallback and can't be changed.</p>
                     </div>
                 </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 my-2" id="modal-title">Localised Values</h3>
                 @foreach (config('fluent.supported') as $key => $label)
                 <div class="mb-2">
                     <label for="{{ $key }}" class="block text-sm font-medium text-gray-700">{{ $label }}</label>
