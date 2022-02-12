@@ -13,13 +13,14 @@ class H2 extends Component
     public $class;
     public $output;
     public $path;
-    public $editMode = true;
+    public $editMode;
 
     protected $listeners = ['changeEditMode'];
 
     public function mount()
     {
         $this->retreiveStoredValue();
+        $this->editMode = session('fluentEditMode');
     }
 
     public function changeEditMode()
