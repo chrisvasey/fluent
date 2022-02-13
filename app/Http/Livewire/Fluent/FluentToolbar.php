@@ -19,8 +19,9 @@ class FluentToolbar extends Component
 
     public function handleLanguageChange($languageKey)
     {
-        App::setLocale($languageKey);
-        $this->currentLanguage = $languageKey;
+        return redirect()->route('language', [
+            'locale' => $languageKey
+        ]);
     }
 
     public function changeEditMode()
