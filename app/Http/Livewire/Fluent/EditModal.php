@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Fluent;
 use LivewireUI\Modal\ModalComponent;
+use Illuminate\Support\Facades\Storage;
 
 class EditModal extends ModalComponent
 {
@@ -16,6 +17,11 @@ class EditModal extends ModalComponent
         $this->path = $path;
         $this->default = $default;
         $this->values = $values;
+    }
+
+    public function save()
+    {
+        ray($this->values);
     }
 
     public function render()

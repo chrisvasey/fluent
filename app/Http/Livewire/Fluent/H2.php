@@ -31,7 +31,10 @@ class H2 extends Component
     public function retreiveStoredValue()
     {
         // Attempt to retrieve a stored value for this ref
-        $storedValue = json_decode(Storage::disk('local')->get(config('fluent.path')."/{$this->path}.json"), true);
+        $storedValue = json_decode(Storage::disk('lang')->get(
+            config('fluent.path')."/".$this->path.config('fallback_locale').".json",
+            true
+        ));
 
         // If we have no file at all, create one with this ref and value
         if(!$storedValue){
@@ -39,7 +42,10 @@ class H2 extends Component
                 config('fluent.default') => [$this->ref => $this->default]
             ];
 
-            Storage::disk('local')->put(config('fluent.path')."/{$this->path}.json", json_encode($storedValue));
+            Storage::disk('lang')->put(
+                config('fluent.path')."/".$this->path.config('fallback_locale').".json",
+                json_encode($storedValue)
+            );
         }
 
         //TODO: Here it should be checking for the current language rather than the default
