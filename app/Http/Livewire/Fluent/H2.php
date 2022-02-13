@@ -30,26 +30,21 @@ class H2 extends Component
 
     public function retreiveStoredValue()
     {
+        // Set the path to default lang file for this route
+        $jsonPath = "/".config('app.fallback_locale')."/".config('fluent.path')."/".$this->path.".json";
+
         // Attempt to retrieve a stored value for this ref
-        $storedValue = json_decode(Storage::disk('lang')->get(
-            config('fluent.path')."/".$this->path.config('fallback_locale').".json",
-            true
-        ));
+        $storedValue = json_decode(Storage::disk('lang')->get($jsonPath, true));
 
         // If we have no file at all, create one with this ref and value
         if(!$storedValue){
-            $storedValue = [
-                config('fluent.default') => [$this->ref => $this->default]
-            ];
-
-            Storage::disk('lang')->put(
-                config('fluent.path')."/".$this->path.config('fallback_locale').".json",
-                json_encode($storedValue)
-            );
+            Storage::disk('lang')->put($jsonPath, json_encode([
+                $this->ref => $this->default
+            ]));
         }
 
         //TODO: Here it should be checking for the current language rather than the default
-        $this->output = $storedValue[config('fluent.default')][$this->ref] ?? $this->default;
+        $this->output = $storedValue->{config('fluent.default')}->{$this->ref} ?? $this->default;
 
         return $storedValue;
     }

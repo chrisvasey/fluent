@@ -1,3 +1,3 @@
 <h2 wire:click="handleClick" @class([$class, "bg-red-400 hover:bg-red-500 cursor-pointer" => $editMode])>
-    {{ __($output) }}
+    @lang("fluent.{$path}_title")
 </h2>
