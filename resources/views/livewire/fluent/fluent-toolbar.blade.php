@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div class="flex items-center ml-2">
-                <h1 class="text-sm font-medium text-gray-900">Current Language:</h1>
+                <h1 class="text-sm font-medium text-gray-900">Current Language: {{ $currentLanguage }}</h1>
             </div>
             @foreach ($languages as $key => $label)
                 <button
