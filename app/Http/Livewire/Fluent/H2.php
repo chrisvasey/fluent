@@ -3,8 +3,9 @@
 namespace App\Http\Livewire\Fluent;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 
 class H2 extends Component
@@ -20,76 +21,54 @@ class H2 extends Component
 
     public function mount()
     {
-        $this->retreiveStoredValue();
+        // Check if we are in edit mode
         $this->editMode = session('fluentEditMode');
+        $this->ifEditModeFetchValues();
+    }
+
+    // If edit mode, get field values
+    public function ifEditModeFetchValues()
+    {
+        if(!$this->editMode) return;
+
+        $this->values = $this->getSupportedLanguageValues();
     }
 
     public function changeEditMode()
     {
+        // Toggle edit mode
         $this->editMode = !$this->editMode;
+        $this->ifEditModeFetchValues();
     }
 
-    public function getJsonValues($locale)
+    public function getJsonValuesFromFiles()
     {
         // Set the path to default lang file for this route
         $files = collect(Storage::disk('lang')->allFiles("/"))->filter(function ($value) {
             return Str::contains($value, $this->path);
         })->flatten()->toArray();
-        // $files = Storage::disk('lang')->files("/".$locale."/".config('fluent.path'));
 
+
+        // Format Array to be Values[path]
         $output = collect([]);
-
         foreach ($files as $file) {
             $data = json_decode(Storage::disk('lang')->get($file, true));
-            $routeName = basename(Str::before($file, '.json'));
-            // dd($this->path);
-            // dd($data->{$this->path});
-            // dd($data->{$routeName.'_'.$this->path});
-            $output->push($data->{$this->ref});
-
-            // foreach($data as $key => $value){
-            //     $output->put(, $value);
-            // }
+            $output[$file] = $data->{$this->ref};
         }
-
-        dd($output);
 
         return $output->toArray();
     }
 
-    public function retreiveStoredValue()
+    public function getSupportedLanguageValues()
     {
         // $this->ref = request()->route()->getName();
 
-        // $this->default = $this->getJsonValues(config('fluent.default'));
+        // Get JSON values and removed any unsupported languages
+        $values = collect($this->getJsonValuesFromFiles())->filter(function($item, $key){
+            return Arr::exists(config('fluent.supported'), Str::before($key, '/'));
+        });
 
-        $output = collect([]);
-
-        foreach (config('fluent.supported') as $key => $locale) {
-            $output->push($this->getJsonValues($key));
-        }
-
-        dd($output);
-        die();
-
-
-        // Set the path to default lang file for this route
-        $jsonPath = "/".config('app.fallback_locale')."/".config('fluent.path')."/".$this->path.".json";
-
-        // Attempt to retrieve a stored value for this ref
-        $storedValue = json_decode(Storage::disk('lang')->get($jsonPath, true));
-
-        // If we have no file at all, create one with this ref and value
-        if(!$storedValue){
-            Storage::disk('lang')->put($jsonPath, json_encode([
-                $this->ref => $this->default
-            ]));
-        }
-
-        //TODO: Here it should be checking for the current language rather than the default
-        $this->output = $storedValue->{config('fluent.default')}->{$this->ref} ?? $this->default;
-
-        // return $storedValue;
+        return $values;
     }
 
     public function handleClick(){
