@@ -16,31 +16,38 @@ class H2 extends Component
     public $output;
     public $path;
     public $editMode;
+    public $langFileExt = ".json";
 
     protected $listeners = ['changeEditMode'];
 
-    public function mount()
+    // Setup component
+    public function mount($path)
     {
+        // Get JSON path from props or route name
+        $this->path = $path ?? request()->route()->getName();
+
         // Check if we are in edit mode
         $this->editMode = session('fluentEditMode');
-        $this->ifEditModeFetchValues();
+
+        // If edit mode, get languages field values
+        if($this->editMode){
+            $this->values = $this->getSupportedLanguageValues();
+        }
     }
 
-    // If edit mode, get field values
-    public function ifEditModeFetchValues()
-    {
-        if(!$this->editMode) return;
-
-        $this->values = $this->getSupportedLanguageValues();
-    }
-
+    // Toggle edit mode
     public function changeEditMode()
     {
-        // Toggle edit mode
-        $this->editMode = !$this->editMode;
-        $this->ifEditModeFetchValues();
+        // If edit mode, get languages field values
+        if($this->editMode){
+            $this->values = $this->getSupportedLanguageValues();
+        }
     }
 
+    /*
+        Read JSON files from the lang disk.
+        Grab the values needed for this component across all languages.
+    */
     public function getJsonValuesFromFiles()
     {
         // Set the path to default lang file for this route
@@ -53,17 +60,15 @@ class H2 extends Component
         $output = collect([]);
         foreach ($files as $file) {
             $data = json_decode(Storage::disk('lang')->get($file, true));
-            $output[$file] = $data->{$this->ref};
+            $output[Str::beforeLast($file, $this->langFileExt)] = $data->{$this->ref};
         }
 
         return $output->toArray();
     }
 
+    // Get JSON values and removed any unsupported languages not listed in fluent.supported
     public function getSupportedLanguageValues()
     {
-        // $this->ref = request()->route()->getName();
-
-        // Get JSON values and removed any unsupported languages
         $values = collect($this->getJsonValuesFromFiles())->filter(function($item, $key){
             return Arr::exists(config('fluent.supported'), Str::before($key, '/'));
         });
@@ -71,6 +76,7 @@ class H2 extends Component
         return $values;
     }
 
+    // Handles click on component, used to launch edit model
     public function handleClick(){
         // If we aren't in edit mode, get the fuck out of here!
         if(!$this->editMode) return;
@@ -80,7 +86,7 @@ class H2 extends Component
             'ref' => $this->ref,
             'path' => $this->path,
             'default' => $this->default,
-            'values' => $this->retreiveStoredValue(),
+            'values' => $this->values,
         ]);
     }
 
