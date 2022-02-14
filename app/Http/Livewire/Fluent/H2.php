@@ -16,7 +16,6 @@ class H2 extends Component
     public $output;
     public $path;
     public $editMode;
-    public $langFileExt = ".json";
 
     protected $listeners = ['changeEditMode'];
 
@@ -55,12 +54,14 @@ class H2 extends Component
             return Str::contains($value, $this->path);
         })->flatten()->toArray();
 
-
-        // Format Array to be Values[path]
+        /*
+            Format Array to be Values[path].
+            Trim .json from the end of path to limit issues with dot notation.
+        */
         $output = collect([]);
         foreach ($files as $file) {
             $data = json_decode(Storage::disk('lang')->get($file, true));
-            $output[Str::beforeLast($file, $this->langFileExt)] = $data->{$this->ref};
+            $output[Str::beforeLast($file, '.json')] = $data->{$this->ref};
         }
 
         return $output->toArray();
@@ -69,11 +70,9 @@ class H2 extends Component
     // Get JSON values and removed any unsupported languages not listed in fluent.supported
     public function getSupportedLanguageValues()
     {
-        $values = collect($this->getJsonValuesFromFiles())->filter(function($item, $key){
+        return collect($this->getJsonValuesFromFiles())->filter(function($item, $key){
             return Arr::exists(config('fluent.supported'), Str::before($key, '/'));
         });
-
-        return $values;
     }
 
     // Handles click on component, used to launch edit model
@@ -84,7 +83,6 @@ class H2 extends Component
         // Open edit modal with this components values
         $this->emit('openModal', 'fluent.edit-modal', [
             'ref' => $this->ref,
-            'path' => $this->path,
             'default' => $this->default,
             'values' => $this->values,
         ]);

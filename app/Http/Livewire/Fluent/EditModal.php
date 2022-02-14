@@ -7,21 +7,32 @@ use Illuminate\Support\Facades\Storage;
 class EditModal extends ModalComponent
 {
     public $ref;
-    public $path;
     public $default;
     public $values;
 
-    public function mount($ref, $path, $default, $values)
+    public function mount($ref, $default, $values)
     {
         $this->ref = $ref;
-        $this->path = $path;
         $this->default = $default;
         $this->values = $values;
     }
 
+    public function writeToJsonFile($path, $value)
+    {
+        // Get lang file data
+        $data = json_decode(Storage::disk('lang')->get("{$path}.json", true));
+
+        // Update field value
+        $data->{$this->ref} = $value;
+
+        Storage::disk('lang')->put("{$path}.json", json_encode($data));
+    }
+
     public function save()
     {
-        ray($this->values);
+        collect($this->values)->each(function ($value, $key) {
+            $this->writeToJsonFile($key, $value);
+        });
     }
 
     public function render()
