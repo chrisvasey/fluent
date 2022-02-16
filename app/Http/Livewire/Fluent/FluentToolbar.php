@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 class FluentToolbar extends Component
 {
     public $enabled = true;
-    public $editMode;
+    public $editMode = true;
     public $languages;
     public $currentLanguage;
 
@@ -31,7 +31,7 @@ class FluentToolbar extends Component
 
     public function mount()
     {
-        $this->editMode = session('fluentEditMode');
+        $this->editMode = true;
         $this->currentLanguage = App::currentLocale();
 
         $this->languages = collect(config('fluent.supported'));

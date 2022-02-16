@@ -26,7 +26,7 @@ class H2 extends Component
         $this->path = $path ?? request()->route()->getName();
 
         // Check if we are in edit mode
-        $this->editMode = session('fluentEditMode');
+        $this->editMode = true;
 
         // If edit mode, get languages field values
         if($this->editMode){
@@ -67,11 +67,20 @@ class H2 extends Component
         return $output->toArray();
     }
 
-    // Get JSON values and removed any unsupported languages not listed in fluent.supported
+    // Go through supported languages and add any JSON values we have
     public function getSupportedLanguageValues()
     {
-        return collect($this->getJsonValuesFromFiles())->filter(function($item, $key){
-            return Arr::exists(config('fluent.supported'), Str::before($key, '/'));
+        $jsonValues = $this->getJsonValuesFromFiles();
+
+        return collect(config('fluent.supported'))->map(function ($value, $key) use($jsonValues) {
+            $path = $key."/".config('fluent.path')."/".$this->path;
+            $value = key_exists($path, $jsonValues) ? $jsonValues[$path] : null;
+
+            return (object)[
+                'path' => $path,
+                'value' => $value,
+                'old_value' => $value,
+            ];
         });
     }
 

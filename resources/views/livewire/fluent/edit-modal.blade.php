@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <h3 class="text-lg leading-6 font-medium text-gray-900 my-2" id="modal-title">Localised Values</h3>
-                @foreach ($values as $key => $value)
+                @foreach ($values as $key => $data)
                 <div class="mb-2">
                     <label for="{{ $key }}" class="block text-sm font-medium text-gray-700">{{ Str::before($key, '/') }}</label>
                     <div class="mt-1">
@@ -21,7 +21,7 @@
                             id="{{ $key }}"
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder="{{ $default }}"
-                            wire:model="values.{{ $key }}"
+                            wire:model="values.{{ $key }}.value"
                         >
                     </div>
                 </div>

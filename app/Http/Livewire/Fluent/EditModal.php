@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Fluent;
+use stdClass;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,22 +18,31 @@ class EditModal extends ModalComponent
         $this->values = $values;
     }
 
-    public function writeToJsonFile($path, $value)
+    public function writeToJsonFile($locale)
     {
-        // Get lang file data
-        $data = json_decode(Storage::disk('lang')->get("{$path}.json", true));
+        // If value hasn't changed, skip read/write cycle.
+        if($locale['value'] != $locale['old_value']){
+            // Get lang file data or create empty Object if it doesn't exist
+            $data = json_decode(Storage::disk('lang')->get("{$locale['path']}.json", true)) ?? new stdClass();
 
-        // Update field value
-        $data->{$this->ref} = $value;
+            // Update field value
+            if ($data) $data->{$this->ref} = $locale['value'];
 
-        Storage::disk('lang')->put("{$path}.json", json_encode($data));
+            // Write updated data to file
+            Storage::disk('lang')->put("{$locale['path']}.json", json_encode($data));
+        };
+
+        // Close modal
+        $this->emit('closeModal');
     }
 
     public function save()
     {
-        collect($this->values)->each(function ($value, $key) {
-            $this->writeToJsonFile($key, $value);
+        collect($this->values)->each(function ($value) {
+            $this->writeToJsonFile($value);
         });
+
+        //To do, refresh loaded values with event
     }
 
     public function render()
