@@ -11,9 +11,9 @@
                     </div>
                 </div>
                 <h3 class="text-lg leading-6 font-medium text-gray-900 my-2" id="modal-title">Localised Values</h3>
-                @foreach ($values as $key => $data)
+                @foreach ($values as $key => $locale)
                 <div class="mb-2">
-                    <label for="{{ $key }}" class="block text-sm font-medium text-gray-700">{{ Str::before($key, '/') }}</label>
+                    <label for="{{ $key }}" class="block text-sm font-medium text-gray-700">{{ $locale['label'] }} ({{ $key }})</label>
                     <div class="mt-1">
                         <input
                             type="text"

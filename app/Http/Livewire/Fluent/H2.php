@@ -72,11 +72,14 @@ class H2 extends Component
     {
         $jsonValues = $this->getJsonValuesFromFiles();
 
-        return collect(config('fluent.supported'))->map(function ($value, $key) use($jsonValues) {
-            $path = $key."/".config('fluent.path')."/".$this->path;
+        return collect(config('fluent.supported'))->map(function ($label, $locale) use($jsonValues) {
+            $path = $locale."/".config('fluent.path')."/".$this->path;
             $value = key_exists($path, $jsonValues) ? $jsonValues[$path] : null;
 
+
+
             return (object)[
+                'label' => $label,
                 'path' => $path,
                 'value' => $value,
                 'old_value' => $value,
