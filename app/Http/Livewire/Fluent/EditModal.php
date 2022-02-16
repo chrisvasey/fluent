@@ -42,7 +42,8 @@ class EditModal extends ModalComponent
             $this->writeToJsonFile($value);
         });
 
-        //To do, refresh loaded values with event
+        //Refresh values of Fluent components
+        $this->emit('componentSaved');
     }
 
     public function render()

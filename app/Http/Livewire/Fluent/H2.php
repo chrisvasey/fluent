@@ -17,7 +17,12 @@ class H2 extends Component
     public $path;
     public $editMode;
 
-    protected $listeners = ['changeEditMode'];
+    protected $listeners = [
+        'changeEditMode',
+        'componentSaved' => '$refresh'
+    ];
+
+
 
     // Setup component
     public function mount($path)
@@ -26,7 +31,7 @@ class H2 extends Component
         $this->path = $path ?? request()->route()->getName();
 
         // Check if we are in edit mode
-        $this->editMode = true;
+        $this->editMode = session('fluentEditMode');
 
         // If edit mode, get languages field values
         if($this->editMode){
@@ -37,10 +42,7 @@ class H2 extends Component
     // Toggle edit mode
     public function changeEditMode()
     {
-        // If edit mode, get languages field values
-        if($this->editMode){
-            $this->values = $this->getSupportedLanguageValues();
-        }
+        $this->editMode = !$this->editMode;
     }
 
     /*
@@ -76,8 +78,6 @@ class H2 extends Component
             $path = $locale."/".config('fluent.path')."/".$this->path;
             $value = key_exists($path, $jsonValues) ? $jsonValues[$path] : null;
 
-
-
             return (object)[
                 'label' => $label,
                 'path' => $path,
@@ -96,7 +96,7 @@ class H2 extends Component
         $this->emit('openModal', 'fluent.edit-modal', [
             'ref' => $this->ref,
             'default' => $this->default,
-            'values' => $this->values,
+            'values' => $this->getSupportedLanguageValues(),
         ]);
     }
 
