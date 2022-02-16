@@ -22,8 +22,6 @@ class H2 extends Component
         'componentSaved' => '$refresh'
     ];
 
-
-
     // Setup component
     public function mount($path)
     {
@@ -45,14 +43,35 @@ class H2 extends Component
         $this->editMode = !$this->editMode;
     }
 
+    public function ensureLangLoader($files)
+    {
+        collect(config('fluent.supported'))->each(function($label, $locale) use ($files) {
+            if(!in_array($locale.'/fluent.php', $files->toArray())){
+                dd($locale);
+                // Write file
+            }
+        });
+    }
+
     /*
         Read JSON files from the lang disk.
         Grab the values needed for this component across all languages.
     */
     public function getJsonValuesFromFiles()
     {
-        // Set the path to default lang file for this route
-        $files = collect(Storage::disk('lang')->allFiles("/"))->filter(function ($value) {
+        // Get all language JSON files and loaders from our Lang disk
+        $langFiles = collect(Storage::disk('lang')->allFiles("/"));
+
+        // Get loader files
+        $loaders = $langFiles->filter(function ($value) {
+            return Str::contains($value, 'fluent.php');
+        })->flatten();
+
+        // Create any loaders that don't exist
+        $this->ensureLangLoader($loaders);
+
+        // Get language JSON files
+        $files = $langFiles->filter(function ($value) {
             return Str::contains($value, $this->path);
         })->flatten()->toArray();
 
