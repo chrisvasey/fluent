@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <livewire:fluent.h2
+        <livewire:fluent
+            type="h2"
             class="font-semibold text-xl text-gray-800 leading-tight"
             path="about"
             ref="title"

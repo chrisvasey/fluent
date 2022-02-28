@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Fluent;
+namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Arr;
@@ -8,10 +8,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 
-class H2 extends Component
+class Fluent extends Component
 {
     public $ref;
     public $default;
+    public $type;
     public $class;
     public $output;
     public $path;
@@ -21,8 +22,6 @@ class H2 extends Component
         'changeEditMode',
         'componentSaved' => '$refresh'
     ];
-
-
 
     // Setup component
     public function mount($path)
@@ -37,6 +36,17 @@ class H2 extends Component
         if($this->editMode){
             $this->values = $this->getSupportedLanguageValues();
         }
+
+        $this->checkSupportedHtmlTag();
+    }
+
+    public function checkSupportedHtmlTag()
+    {
+        if(in_array(strtolower($this->type), config('fluent.supported_tags'))){
+            return $this->type = strtolower($this->type);
+        }
+
+        return $this->type = 'span';
     }
 
     // Toggle edit mode
@@ -102,6 +112,6 @@ class H2 extends Component
 
     public function render()
     {
-        return view('livewire.fluent.h2');
+        return view('livewire.fluent');
     }
 }

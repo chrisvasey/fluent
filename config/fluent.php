@@ -10,5 +10,16 @@ return [
     ],
 
     //Our fluent storage path
-    'path' => 'fluent'
+    'path' => 'fluent',
+
+    'supported_tags' => [
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'p',
+        'span',
+    ],
 ];
