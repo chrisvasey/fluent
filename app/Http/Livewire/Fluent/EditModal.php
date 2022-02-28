@@ -26,7 +26,7 @@ class EditModal extends ModalComponent
             $data = json_decode(Storage::disk('lang')->get("{$locale['path']}.json", true)) ?? new stdClass();
 
             // Update field value
-            if ($data) $data->{$this->ref} = $locale['value'];
+            $data->{$this->ref} = $locale['value'];
 
             // Write updated data to file
             Storage::disk('lang')->put("{$locale['path']}.json", json_encode($data));
@@ -38,6 +38,7 @@ class EditModal extends ModalComponent
 
     public function save()
     {
+        // Write a value for each field
         collect($this->values)->each(function ($value) {
             $this->writeToJsonFile($value);
         });

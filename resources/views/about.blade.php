@@ -3,7 +3,6 @@
         <livewire:fluent
             type="h2"
             class="font-semibold text-xl text-gray-800 leading-tight"
-            path="about"
             ref="title"
             default="About"
         />

@@ -15,7 +15,7 @@ class Fluent extends Component
     public $type;
     public $class;
     public $output;
-    public $path;
+    public $path = null;
     public $editMode;
 
     protected $listeners = [
@@ -24,10 +24,10 @@ class Fluent extends Component
     ];
 
     // Setup component
-    public function mount($path)
+    public function mount()
     {
-        // Get JSON path from props or route name
-        $this->path = $path ?? request()->route()->getName();
+        // Get route name
+        $this->path = request()->route()->getName();
 
         // Check if we are in edit mode
         $this->editMode = session('fluentEditMode');

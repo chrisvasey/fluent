@@ -3,7 +3,6 @@
         <livewire:fluent
             type="h2"
             class="font-semibold text-xl text-gray-800 leading-tight"
-            path="how"
             ref="title"
             default="How"
         />
