@@ -48,4 +48,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::get('/builder', function () {
+    return view('builder');
+})->middleware(['auth'])->name('builder');
+
 require __DIR__.'/auth.php';

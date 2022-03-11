@@ -16,6 +16,7 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         @livewireStyles
+        @stack('styles')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -36,5 +37,6 @@
         @livewireScripts
         @livewire('fluent.fluent-toolbar')
         @livewire('livewire-ui-modal')
+        @stack('scripts')
     </body>
 </html>
