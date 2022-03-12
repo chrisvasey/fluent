@@ -3,6 +3,6 @@
         @livewire("shrine.pages.${slug}", ['slug' => $slug])
     </div>
     @if($edit)
-        <livewire:shrine.edit-loader/>
+        <livewire:shrine.edit-sidebar/>
     @endif
 </main>
