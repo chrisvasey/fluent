@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Shrine\ShrineLoader;
+use App\Http\Controllers\ShrinePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,5 +49,8 @@ Route::get('/example', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+
+Route::get('/pages/{slug}', ShrineLoader::class);
 
 require __DIR__.'/auth.php';
