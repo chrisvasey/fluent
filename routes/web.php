@@ -52,5 +52,6 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/pages/{slug}', ShrineLoader::class);
+Route::get('/pages/{slug}/{edit}', ShrineLoader::class);
 
 require __DIR__.'/auth.php';
