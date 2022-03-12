@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Shrine\ShrineLoader;
-use App\Http\Controllers\ShrinePageController;
 
 /*
 |--------------------------------------------------------------------------
